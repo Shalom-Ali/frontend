@@ -15,27 +15,33 @@ app.get('/', (req, res) => res.render('index'));
 app.post('/login', async (req, res) => {
   try {
     const { email } = req.body;
+    console.log(`Attempting login with email: ${email}, backend: ${backendUrl}`);
     const response = await axios.post(`${backendUrl}/auth/login`, { email });
     res.redirect(`/dashboard?user_id=${response.data.user_id}`);
   } catch (error) {
+    console.error('Login error:', error.message);
     res.render('index', { error: 'Login failed' });
   }
 });
 app.get('/dashboard', async (req, res) => {
   try {
     const { user_id } = req.query;
+    console.log(`Fetching content for user_id: ${user_id}, backend: ${backendUrl}`);
     const content = await axios.get(`${backendUrl}/learning/content/${user_id}`);
     res.render('dashboard', { user_id, content: content.data });
   } catch (error) {
+    console.error('Dashboard error:', error.message);
     res.render('index', { error: 'Failed to load content' });
   }
 });
 app.post('/progress', async (req, res) => {
   try {
     const { user_id, module, progress } = req.body;
+    console.log(`Updating progress for user_id: ${user_id}, module: ${module}`);
     await axios.post(`${backendUrl}/learning/progress/${user_id}`, { module, progress });
     res.redirect(`/dashboard?user_id=${user_id}`);
   } catch (error) {
+    console.error('Progress error:', error.message);
     res.render('dashboard', { error: 'Failed to update progress' });
   }
 });
