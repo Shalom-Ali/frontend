@@ -11,7 +11,9 @@ app.use(express.urlencoded({ extended: true }));
 const backendUrl = process.env.BACKEND_URL || 'http://localhost:8000';
 
 // Routes
-app.get('/', (req, res) => res.render('index'));
+app.get('/', (req, res) => {
+  res.render('index', { error: null });
+});
 app.post('/login', async (req, res) => {
   try {
     const { email } = req.body;
@@ -28,7 +30,7 @@ app.get('/dashboard', async (req, res) => {
     const { user_id } = req.query;
     console.log(`Fetching content for user_id: ${user_id}, backend: ${backendUrl}`);
     const content = await axios.get(`${backendUrl}/learning/content/${user_id}`);
-    res.render('dashboard', { user_id, content: content.data });
+    res.render('dashboard', { user_id, content: content.data, error: null });
   } catch (error) {
     console.error('Dashboard error:', error.message);
     res.render('index', { error: 'Failed to load content' });
@@ -42,7 +44,7 @@ app.post('/progress', async (req, res) => {
     res.redirect(`/dashboard?user_id=${user_id}`);
   } catch (error) {
     console.error('Progress error:', error.message);
-    res.render('dashboard', { error: 'Failed to update progress' });
+    res.render('dashboard', { user_id, content: {}, error: 'Failed to update progress' });
   }
 });
 
