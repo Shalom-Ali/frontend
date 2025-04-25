@@ -8,7 +8,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 
-const backendUrl = process.env.BACKEND_URL;
+const backendUrl = process.env.BACKEND_URL || 'http://localhost:8000';
 
 // Routes
 app.get('/', (req, res) => res.render('index'));
