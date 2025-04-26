@@ -29,31 +29,32 @@ const AIContentGenerator = () => {
   };
 
   return (
-    <div className="p-4 max-w-2xl mx-auto">
-      <h2 className="text-2xl font-bold mb-4">AI Content Generator</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <div style={{ padding: '20px', maxWidth: '600px', margin: '0 auto' }}>
+      <h2 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '20px' }}>
+        AI Content Generator
+      </h2>
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
         <div>
-          <label htmlFor="content" className="block text-sm font-medium">
+          <label htmlFor="content" style={{ display: 'block', marginBottom: '5px' }}>
             Topic or Paragraph
           </label>
           <textarea
             id="content"
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            className="mt-1 block w-full border rounded-md p-2"
-            rows="5"
+            style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px', minHeight: '100px' }}
             required
           />
         </div>
         <div>
-          <label htmlFor="outputType" className="block text-sm font-medium">
+          <label htmlFor="outputType" style={{ display: 'block', marginBottom: '5px' }}>
             Output Type
           </label>
           <select
             id="outputType"
             value={outputType}
             onChange={(e) => setOutputType(e.target.value)}
-            className="mt-1 block w-full border rounded-md p-2"
+            style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}
           >
             <option value="description">Description</option>
             <option value="quiz">Quiz</option>
@@ -62,36 +63,43 @@ const AIContentGenerator = () => {
         <button
           type="submit"
           disabled={loading}
-          className="bg-blue-500 text-white px-4 py-2 rounded-md disabled:bg-gray-400"
+          style={{
+            backgroundColor: loading ? '#ccc' : '#007bff',
+            color: 'white',
+            padding: '10px',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: loading ? 'not-allowed' : 'pointer'
+          }}
         >
           {loading ? 'Generating...' : 'Generate'}
         </button>
       </form>
 
-      {error && <p className="mt-4 text-red-500">{error}</p>}
+      {error && <p style={{ color: 'red', marginTop: '15px' }}>{error}</p>}
 
       {result && (
-        <div className="mt-6">
+        <div style={{ marginTop: '20px' }}>
           {outputType === 'description' ? (
             <div>
-              <h3 className="text-xl font-semibold">Description</h3>
-              <p className="mt-2">{result.description}</p>
+              <h3 style={{ fontSize: '20px', fontWeight: 'bold' }}>Description</h3>
+              <p style={{ marginTop: '10px' }}>{result.description}</p>
             </div>
           ) : (
             <div>
-              <h3 className="text-xl font-semibold">Quiz</h3>
+              <h3 style={{ fontSize: '20px', fontWeight: 'bold' }}>Quiz</h3>
               {result.questions.map((q, index) => (
-                <div key={index} className="mt-4">
-                  <p className="font-medium">{q.question}</p>
-                  <ul className="mt-2 space-y-1">
+                <div key={index} style={{ marginTop: '15px' }}>
+                  <p style={{ fontWeight: 'medium' }}>{q.question}</p>
+                  <ul style={{ marginTop: '10px', listStyle: 'none', padding: '0' }}>
                     {q.options.map((option, i) => (
-                      <li key={i}>
-                        <label className="flex items-center">
+                      <li key={i} style={{ marginBottom: '5px' }}>
+                        <label style={{ display: 'flex', alignItems: 'center' }}>
                           <input
                             type="radio"
                             name={`question-${index}`}
                             value={option}
-                            className="mr-2"
+                            style={{ marginRight: '10px' }}
                           />
                           {option}
                         </label>
