@@ -16,7 +16,7 @@ const AIContentGenerator = () => {
 
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/ai/generate`,
+        `${process.env.BACKEND_URL}/ai/generate`,
         { content, output_type: outputType },
         { headers: { 'Content-Type': 'application/json' } }
       );
